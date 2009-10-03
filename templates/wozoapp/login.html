@@ -1,0 +1,37 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Iniciar Sesión{% endblock %}
+
+{% block contenido %}
+
+<form method="post" action="{{ root_url }}login/">
+<table>
+<tr>
+    <td>{{ login_form.username.label_tag }}</td>
+    <td>{{ login_form.username }}</td>
+</tr>
+<tr>
+    <td>{{ login_form.password.label_tag }}</td>
+    <td>{{ login_form.password }}</td>
+</tr>
+</table>
+
+{% if error %}
+    <div class="mensajes"><p>{{ error }}</p></div>
+{% endif %}
+
+<br/>
+<input type="submit" value="Login" class="boton_form"/>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% endblock %}
+
+
+
+{% block mas %}
+    <h3>Usuario y contraseña? Eh??</h3>
+    <p>Si no tenés idea de con qué usuario y contraseña entrar, pedile a quien
+    administra el sitio que te cree un usuario, o que te diga cuál es el que ya
+    te creó antes.</p>
+{% endblock %}

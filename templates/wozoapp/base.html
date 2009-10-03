@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>Wozo - {% block titulo %}{% endblock %}</title>
+<link href="{{ root_url }}media/css/estilos.css" type="text/css"
+06.
+rel="stylesheet"></link>
+</head>
+
+<body>
+<!-- Cabecera general -->
+<div id="banner">
+    <a href="{{ root_url }}"><img src="{{ root_url }}media/logo.png"/></a>    
+    <h1>Wozo</h1>
+    <h3>Buon apetite!! (faaaah, que francés!)</h3>
+</div>
+<!-- END Cabecera general -->
+
+<!-- Todo -->
+<div id="contenedor">
+<div id="contenedor2">
+    <div class="division"></div> 
+    <!-- Menu -->
+    <div id="menu_vertical">
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{{ root_url }}">Principal</a></li>
+                <li><a href="{{ root_url }}armar_resumen">Resumen</a></li>
+                <li><a href="{{ root_url }}menues_dias">Menú Diario</a></li>
+                <li><a href="{{ root_url }}menues_normales">Menú Normal</a></li>
+                <li><a href="/admin/">Administración</a></li>
+                <li><a href="{{ root_url }}logout">Cerrar Sesión</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <!-- END Menu -->
+
+    <!-- Mas -->
+    <div id="mas">
+        {% block mas %}
+        {% endblock %}
+    </div>
+    <!-- END Mas -->
+
+    <!-- Contenido -->
+    <div id="contenido">
+        {% block contenido %}
+        {% endblock %}
+    </div>
+    <!-- END Contenido -->
+
+    <div class="division"></div> 
+</div>
+</div>
+<!-- END Todo -->
+
+<!-- Pie -->
+<div id="pie">
+    <ul>
+        <li>Desarrollado con <a href="http://www.python.org">Python</a> y
+        <a href="http://www.djangoproject.com">Django</a>
+         - Contactar al <a href="mailto:fisadev@gmail.com">desarrollador</a>
+        </li>
+    </ul>
+</div>
+<!-- END Pie -->
+
+</body>
+</html>

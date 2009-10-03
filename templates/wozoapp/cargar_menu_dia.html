@@ -1,0 +1,40 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Cargar Menú del Día{% endblock %}
+
+{% block contenido %}
+
+    <h2>Cargar un nuevo menú del día:</h2>
+    
+    <br/>
+    <form action="{{ root_url }}cargar_menu_dia/{{ dia }}/" method="POST">
+    <table>
+    <tr>
+        <td>{{ menu_dia_form.nombre.label_tag }}</td>
+        <td>{{ menu_dia_form.nombre }}</td>
+    </tr>
+    <tr>
+        <td>{{ menu_dia_form.contenido.label_tag }}</td>
+        <td>{{ menu_dia_form.contenido }}</td>
+    </tr>
+    </table>
+    <br/>
+    <input type="submit" value="Guardar!" class="boton_form"/>
+    </form>
+
+    {% if error %}
+        <div class="mensajes"><p>{{ error }}</p></div>
+    {% endif %}
+
+{% endblock %}
+
+{% block mas %}
+    <h3>Donde estoy?</h3>
+    <p>Estás cargando un nuevo Menú del Día.</p>
+    <p>Este es el menú que se ofrece de manera especial para cada día.</p>
+    <p>Cada día puede contener todos los menues que se quiera, no hay limitación
+    para eso.</p>
+    <p>Si no esta completa, no hay drama. Total, si lo que se quiere pedir no
+    está en el menú del día o en los menues normales, siempre se puede pedir un
+    menú especial escribiendo lo que se quiere :-).</p>
+{% endblock %}

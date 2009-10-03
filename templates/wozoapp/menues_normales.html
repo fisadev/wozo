@@ -1,0 +1,57 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Menú Normal{% endblock %}
+
+{% block contenido %}
+
+    <h2>Menú Normal</h2>
+    <hr/>
+    <br/>
+    {% if menues_normales %}
+        <table class="tabla_abm">
+        {% for menu_normal in menues_normales %}
+            <tr>
+                <td><p><b>{{ menu_normal.nombre }}</b>: {{ menu_normal.contenido }}</p></td>
+                <td><a href="{{ root_url }}eliminar_menu_normal/{{ menu_normal.id }}/">Eliminar</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay menues normales.</p>
+    {% endif %}
+    
+    <br/>
+    <hr/>
+    
+    <h2>Cargar un nuevo menú normal:</h2>
+    
+    <br/>
+    <form action="{{ root_url }}menues_normales/" method="POST" class="form_abm">
+    <table>
+    <tr>
+        <td>{{ menu_normal_form.nombre.label_tag }}</td>
+        <td>{{ menu_normal_form.nombre }}</td>
+    </tr>
+    <tr>
+        <td>{{ menu_normal_form.contenido.label_tag }}</td>
+        <td>{{ menu_normal_form.contenido }}</td>
+    </tr>
+    </table>
+    <input type="submit" value="Guardar!" class="boton_form"/>
+    </form>
+
+    {% if error %}
+        <div class="mensajes"><p>{{ error }}</p></div>
+    {% endif %}
+
+{% endblock %}
+
+{% block mas %}
+    <h3>Donde estoy?</h3>
+    <p>Estás viendo el Menú Normal.</p>
+    <p>Este es el menú que pueden pedir cualquier día. Es como la lista de cosas
+    que el super siempre tiene disponible.</p>
+    <p>Si no esta completa, no hay drama. Total, si lo que se quiere pedir no
+    está en el menú del día o en los menues normales, siempre se puede pedir un
+    menú especial escribiendo lo que se quiere :-).</p>
+{% endblock %}

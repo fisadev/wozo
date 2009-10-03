@@ -1,0 +1,49 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Pedir el Menú{% endblock %}
+
+{% block contenido %}
+
+    <h2>Pedir el Menú:</h2>
+    
+    <br/>
+    <form action="{{ root_url }}pedir_menu/{{ dia }}/" method="POST">
+    <table>
+    <tr>
+        <td>{{ pedido_form.menu_dia.label_tag }}</td>
+        <td>{{ pedido_form.menu_dia }}</td>
+    </tr>
+    <tr>
+        <td>{{ pedido_form.menu_normal.label_tag }}</td>
+        <td>{{ pedido_form.menu_normal }}</td>
+    </tr>
+    <tr>
+        <td>{{ pedido_form.menu_especial.label_tag }}</td>
+        <td>{{ pedido_form.menu_especial }}</td>
+    </tr>
+    </table>
+    <br/>
+    <input type="submit" value="Guardar!" class="boton_form"/>
+    </form>
+
+    {% if error %}
+        <div class="mensajes"><p>{{ error }}</p></div>
+    {% endif %}
+
+{% endblock %}
+
+{% block mas %}
+    <h3>Donde estoy?</h3>
+    <p>Acá es donde podés pedir tu Menú.</p>
+    <p>Como ves, podés elegir entre 3 cosas diferentes: Menú del día, Menú normal
+    o Menú especial.</p>
+    <p>Lo que no es tan obvio, es que podés elegir la combinación que quieras.
+    Por ejemplo, podés elegir un menú del día y un menú especial, o solo un menú
+    normal, etc. Tenés todas las posibilidades abiertas (son 7 posibilidades, para
+    ser exacto, jeje).</p>
+    <h3>Y que pasa si quiero 2 menúes normales? (o algo parecido)</h3>
+    <p>No pasa nada, jeje. Simplemente elegí uno, guardalo, y después desde tu
+    lista de pedidos podés volver a cargar otro pedido más, con el segundo menú.
+    </p>
+    <p>Podés cargar todos los menúes que quieras para cada día.</p>
+{% endblock %}

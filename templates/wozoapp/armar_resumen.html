@@ -1,0 +1,74 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Resumen de Pedidos{% endblock %}
+
+{% block contenido %}
+
+    <h2>Mostrar el Resumen de Pedidos para el día:</h2>
+    <hr/>
+    <table>
+        <tr>
+            <td><h3>Esta semana:</h3></td>
+            <td><h3>Semana que viene:</h3></td>
+        </tr>
+        {% for nombre_dia1, fecha_dia1, nombre_dia2, fecha_dia2 in dias %}
+            <tr>
+                <td><a class="boton_suelto" href="{{ root_url }}armar_resumen/{{ fecha_dia1 }}/">{{ nombre_dia1 }}</a></td>
+                <td><a class="boton_suelto" href="{{ root_url }}armar_resumen/{{ fecha_dia2 }}/">{{ nombre_dia2 }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br/>
+    <hr/>
+    
+    <h2>{{ titulo_dia }} ({{ dia }})</h2>
+    
+    {% if usuarios_sin_pedido %}
+    <h3>Usuarios que no pidieron el menú para este día:</h3>
+    <div class="mensajes">
+        <p>{{ usuarios_sin_pedido }}</p>
+    </div>
+    {% endif %}
+    
+    <h3>Menúes del Día:</h3>
+    {% if menues_dias %}
+        {% for menu_dia, cantidad_pedidos in menues_dias %}
+            <p>{{ menu_dia.nombre }} ({{ menu_dia.contenido }}): <b>{{ cantidad_pedidos }}</b></p>
+        {% endfor %}
+    {% else %}
+        <p>Parece que el menú del día no tuvo mucha aceptación, nadie lo pidió, jeje.</p>
+    {% endif %}
+    
+    <h3>Menúes Normales:</h3>
+    {% if menues_normales %}
+        {% for menu_normal, cantidad_pedidos in menues_normales %}
+            <p>{{ menu_normal.nombre }} ({{ menu_normal.contenido }}): <b>{{ cantidad_pedidos }}</b></p>
+        {% endfor %}
+    {% else %}
+        <p>Nadie pidió menues normales.</p>
+    {% endif %}
+    
+    <h3>Menúes Especiales:</h3>
+    {% if menues_especiales %}
+        {% for menu_especial in menues_especiales %}
+            <p>{{ menu_especial }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Nadie pidió menues especiales.</p>
+    {% endif %}
+
+    
+{% endblock %}
+
+{% block mas %}
+    <h3>Donde estoy?</h3>
+    <p>En esta sección donde podés armar el resumen de lo que todos pidieron
+    para un día determinado.</p>
+    <p>La idea es que ese resumen te sirva para enviarlo por mail, leerlo para
+    pasarlo por teléfono, o imprimirlo para que todos puedan verlo.</p>
+    <p>(Algunas personas opinan que ver este resúmen, que te lleva solo un click,
+    es algo mucho más rápido de hacer que preguntarle a cada persona qué quiere
+    comer e ir anotándolo, o leer un excel e ir resumiéndolo. Esas personas
+    deben estar locas).
+{% endblock %}

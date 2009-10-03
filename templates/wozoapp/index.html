@@ -1,0 +1,80 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Principal{% endblock %}
+
+{% block contenido %}
+
+    <h2>Mis Pedidos</h2>
+    <hr/>
+    
+    {% if user.is_authenticated %}
+        <p>Buenas {{ user.username }}!, cómo andás hoy? con hambre? :-)</p>
+    {% endif %}
+    
+    {% if mensajes %}
+        <div class="mensajes">
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <br/>
+    {% for titulo, dia, es_hoy, dia_semana, pedidos, editable in pedidos_dias %}
+        {% if titulo %}
+            <hr/>
+            <h2>{{ titulo }}</h2>
+        {% endif %}
+        
+        {% if pedidos or not editable%}
+            {% if es_hoy %}
+                <div class="dia_hoy_cargado">
+            {% else %}
+                <div class="dia_cargado">
+            {% endif %}
+            <h3>{{ dia_semana }} ({{ dia }})</h3>
+            <ul>
+                {% for pedido in pedidos %}
+                    <li>
+                    {% if pedido.menu_dia %}
+                        <b>{{ pedido.menu_dia.nombre }}</b>: {{ pedido.menu_dia.contenido }}
+                    {% else %}
+                        {% if pedido.menu_normal %}
+                            <b>{{ pedido.menu_normal.nombre }}</b>: {{ pedido.menu_normal.contenido }}
+                        {% else %}
+                            {{ pedido.menu_especial }}
+                        {% endif %}
+                    {% endif %}
+                    {% if editable %}
+                        <a href="{{ root_url }}eliminar_pedido/{{ pedido.id }}/">Eliminar</a>
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% if es_hoy %}
+                <div class="dia_hoy_vacio">
+            {% else %}
+                <div class="dia_vacio">
+            {% endif %}
+            <h3>{{ dia_semana }} ({{ dia }})</h3>
+            <ul>
+                <li>Todavía no pediste menú para este día</li>
+            </ul>
+        {% endif %}
+        {% if editable %}
+            <a href="{{ root_url }}pedir_menu/{{ dia.toordinal }}/" class="boton_suelto">Agregar Pedido</a>
+        {% endif %}
+        </div>
+    {% endfor %}
+   
+{% endblock %}
+
+{% block mas %}
+    <h3>Sugerencias:</h3>
+    <p>Hoy se me ocurrió proponerle a todos:</p>
+    <p>{{ sugerencia_random }}</p>
+    <br/>
+    <p>Y no te gustaría probar esto? Nunca lo pediste:</p>
+    <p>{{ sugerencia_nueva }}</p>
+{% endblock %}

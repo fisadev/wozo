@@ -1,0 +1,59 @@
+{% extends "wozoapp/base.html" %}
+
+{% block titulo %}Menú del Día{% endblock %}
+
+{% block contenido %}
+
+    <h2>Menú del Día</h2>
+    
+    {% for titulo, dia, es_hoy, dia_semana, menues, editable in menues_dias %}
+        {% if titulo %}
+            <hr/>
+            <h2>{{ titulo }}</h2>
+        {% endif %}
+        
+        {% if menues or not editable %}
+            {% if es_hoy %}
+                <div class="dia_hoy_cargado">
+            {% else %}
+                <div class="dia_cargado">
+            {% endif %}
+            <h3>{{ dia_semana }} ({{ dia }})</h3>
+            <ul>
+                {% for menu_dia in menues %}
+                    <li><b>{{ menu_dia.nombre }}</b> - {{ menu_dia.contenido }}
+                    {% if editable %}
+                        <a href="{{ root_url }}eliminar_menu_dia/{{ menu_dia.id }}/">Eliminar</a>
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% if es_hoy %}
+                <div class="dia_hoy_vacio">
+            {% else %}
+                <div class="dia_vacio">
+            {% endif %}
+            <h3>{{ dia_semana }} ({{ dia }})</h3>
+            <ul>
+                <li>No se cargó el menú para este día</li>
+            </ul>
+        {% endif %}
+        {% if editable %}
+            <a href="{{ root_url }}cargar_menu_dia/{{ dia.toordinal }}/" class="boton_suelto">Agregar Menu</a>
+        {% endif %}
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block mas %}
+    <h3>Donde estoy?</h3>
+    <p>Estás viendo el Menú del Día.</p>
+    <p>Este es el menú que se ofrece de manera especial para cada día.</p>
+    <p>Cada día puede contener todos los menues que se quiera, no hay limitación
+    para eso.</p>
+    <p>Si no esta completa, no hay drama. Total, si lo que se quiere pedir no
+    está en el menú del día o en los menues normales, siempre se puede pedir un
+    menú especial escribiendo lo que se quiere :-).</p>
+{% endblock %}
