@@ -65,7 +65,8 @@ def index(request):
                                                      'sugerencia_random': sugerencia_random,
                                                      'sugerencia_nueva': sugerencia_nueva,
                                                      'user': request.user,
-                                                     'root_url': root_url})
+                                                     'root_url': root_url,
+                                                     'actual_url': request.path,})
 
 @login_required    
 def pedir_menu(request, ordinal_dia):
@@ -104,7 +105,7 @@ def pedir_menu(request, ordinal_dia):
             pedido.save()
 
         if pidio:
-            return HttpResponseRedirect(root_url)
+            return HttpResponseRedirect(request.GET['next'])
         else:
             pedido_form = PedidoForm(request.POST)
             error = "Che, faltan completar algunas cosas."
@@ -117,10 +118,17 @@ def pedir_menu(request, ordinal_dia):
     pedido_form.fields['menu_normal'].choices.extend([(menu.id, menu.nombre + ": " + menu.contenido)
                                                       for menu in MenuNormal.objects.all().order_by("nombre")])
     
+    dia_semana = DIAS_SEMANA[dia.weekday()]
+    pedidos = Pedido.objects.filter(user=request.user, dia=dia).order_by('dia')
+
     return render_to_response('wozoapp/pedir_menu.html', {'pedido_form': pedido_form,
-                                                          'dia': dia.toordinal(),
+                                                          'dia_ordinal': dia.toordinal(),
+                                                          'dia': dia,
+                                                          'dia_semana': dia_semana,
+                                                          'pedidos': pedidos,
                                                           'user': request.user,
                                                           'root_url': root_url,
+                                                          'actual_url': request.path,
                                                           'error': error})
 
 
@@ -129,7 +137,7 @@ def eliminar_pedido(request, pedido_id):
     "Elimina un pedido de menu"
     pedido = get_object_or_404(Pedido, pk=pedido_id)
     pedido.delete()
-    return HttpResponseRedirect(root_url)
+    return HttpResponseRedirect(request.GET['next'])
     
 @login_required    
 def armar_resumen(request, ordinal_dia=date.today().toordinal()):
@@ -204,7 +212,8 @@ def menues_dias(request):
 
     return render_to_response('wozoapp/menues_dias.html', {'menues_dias': menues_dias,
                                                            'user': request.user,
-                                                           'root_url': root_url})
+                                                           'root_url': root_url,
+                                                           'actual_url': request.path,})
 
 @login_required    
 def cargar_menu_dia(request, ordinal_dia):
@@ -221,15 +230,22 @@ def cargar_menu_dia(request, ordinal_dia):
             menu_dia.nombre = nombre
             menu_dia.contenido = contenido
             menu_dia.save()
-            return HttpResponseRedirect(root_url + "menues_dias")
+            return HttpResponseRedirect(request.GET['next'])
         else:
             menu_dia_form = MenuDiaForm(request.POST)
             error = "Che, faltan completar algunas cosas."
 
+    dia_semana = DIAS_SEMANA[dia.weekday()]
+    menues = MenuDia.objects.filter(dia=dia).order_by('nombre')
+
     return render_to_response('wozoapp/cargar_menu_dia.html', {'menu_dia_form': menu_dia_form,
-                                                               'dia': dia.toordinal(),
+                                                               'dia_ordinal': dia.toordinal(),
+                                                               'dia': dia,
+                                                               'dia_semana': dia_semana,
+                                                               'menues': menues,
                                                                'user': request.user,
                                                                'root_url': root_url,
+                                                               'actual_url': request.path,
                                                                'error': error})
 
 @login_required
@@ -237,7 +253,7 @@ def eliminar_menu_dia(request, menu_dia_id):
     "Elimina un menu del dia"
     menu_dia = get_object_or_404(MenuDia, pk=menu_dia_id)
     menu_dia.delete()
-    return HttpResponseRedirect(root_url + "menues_dias")
+    return HttpResponseRedirect(request.GET['next'])
 
 @login_required    
 def menues_normales(request):

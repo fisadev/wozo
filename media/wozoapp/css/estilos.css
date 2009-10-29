@@ -154,12 +154,12 @@ div#menu_vertical li a {
 	margin-top: 5px;
 }
 	
-div#menu_vertical li a:link, #menu_vertical li a:visited {
+div#menu_vertical li a:link, div#menu_vertical li a:visited {
 	color: #000000;
 	display: block;
 	background: url(boton_menu.png) no-repeat;
 }
-	
+
 div#menu_vertical li a:hover {
 	color: #EE5500;
 	background: url(boton_menu_hover.png) no-repeat;

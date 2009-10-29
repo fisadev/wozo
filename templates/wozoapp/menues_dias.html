@@ -23,7 +23,7 @@
                 {% for menu_dia in menues %}
                     <li><b>{{ menu_dia.nombre }}</b> - {{ menu_dia.contenido }}
                     {% if editable %}
-                        <a href="{{ root_url }}eliminar_menu_dia/{{ menu_dia.id }}/">Eliminar</a>
+                        <a href="{{ root_url }}eliminar_menu_dia/{{ menu_dia.id }}/?next={{ actual_url }}">Eliminar</a>
                     {% endif %}
                     </li>
                 {% endfor %}

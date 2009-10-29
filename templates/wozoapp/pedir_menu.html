@@ -4,10 +4,40 @@
 
 {% block contenido %}
 
+    <div class="dia_cargado">
+    {% if pedidos %}
+        <h3>{{ dia_semana }} ({{ dia }})</h3>
+        <ul>
+            {% for pedido in pedidos %}
+                <li>
+                {% if pedido.menu_dia %}
+                    <b>{{ pedido.menu_dia.nombre }}</b>: {{ pedido.menu_dia.contenido }}
+                {% else %}
+                    {% if pedido.menu_normal %}
+                        <b>{{ pedido.menu_normal.nombre }}</b>: {{ pedido.menu_normal.contenido }}
+                    {% else %}
+                        {{ pedido.menu_especial }}
+                    {% endif %}
+                {% endif %}
+                <a href="{{ root_url }}eliminar_pedido/{{ pedido.id }}/?next={{ actual_url }}">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>{{ dia_semana }} ({{ dia }})</h3>
+        <ul>
+            <li>Todavía no pediste menú para este día</li>
+        </ul>
+    {% endif %}
+    {% if editable %}
+        <a href="{{ root_url }}pedir_menu/{{ dia.toordinal }}/" class="boton_suelto">Agregar Pedido</a>
+    {% endif %}
+    </div>
+
     <h2>Pedir el Menú:</h2>
     
     <br/>
-    <form action="{{ root_url }}pedir_menu/{{ dia }}/" method="POST">
+    <form action="{{ root_url }}pedir_menu/{{ dia_ordinal }}/?next={{ actual_url }}" method="POST">
     <table>
     <tr>
         <td>{{ pedido_form.menu_dia.label_tag }}</td>
@@ -23,8 +53,11 @@
     </tr>
     </table>
     <br/>
-    <input type="submit" value="Guardar!" class="boton_form"/>
+    <input type="submit" value="Agregar!" class="boton_form"/>
     </form>
+
+    <br/>
+    <a href="{{ root_url }}" class="boton_suelto">Volver</a>
 
     {% if error %}
         <div class="mensajes"><p>{{ error }}</p></div>

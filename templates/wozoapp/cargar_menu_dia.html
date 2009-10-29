@@ -4,10 +4,28 @@
 
 {% block contenido %}
 
+    <div class="dia_cargado">
+    {% if menues %}
+        <h3>{{ dia_semana }} ({{ dia }})</h3>
+        <ul>
+            {% for menu_dia in menues %}
+                <li><b>{{ menu_dia.nombre }}</b> - {{ menu_dia.contenido }}
+                <a href="{{ root_url }}eliminar_menu_dia/{{ menu_dia.id }}/?next={{ actual_url }}">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>{{ dia_semana }} ({{ dia }})</h3>
+        <ul>
+            <li>No se cargó el menú para este día</li>
+        </ul>
+    {% endif %}
+    </div>
+    
     <h2>Cargar un nuevo menú del día:</h2>
     
     <br/>
-    <form action="{{ root_url }}cargar_menu_dia/{{ dia }}/" method="POST">
+    <form action="{{ root_url }}cargar_menu_dia/{{ dia_ordinal }}/?next={{ actual_url }}" method="POST">
     <table>
     <tr>
         <td>{{ menu_dia_form.nombre.label_tag }}</td>
@@ -19,8 +37,11 @@
     </tr>
     </table>
     <br/>
-    <input type="submit" value="Guardar!" class="boton_form"/>
+    <input type="submit" value="Agregar!" class="boton_form"/>
     </form>
+
+    <br/>
+    <a href="{{ root_url }}menues_dias/" class="boton_suelto">Volver</a>
 
     {% if error %}
         <div class="mensajes"><p>{{ error }}</p></div>

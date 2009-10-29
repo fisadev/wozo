@@ -46,7 +46,7 @@
                         {% endif %}
                     {% endif %}
                     {% if editable %}
-                        <a href="{{ root_url }}eliminar_pedido/{{ pedido.id }}/">Eliminar</a>
+                        <a href="{{ root_url }}eliminar_pedido/{{ pedido.id }}/?next={{ actual_url }}">Eliminar</a>
                     {% endif %}
                     </li>
                 {% endfor %}
